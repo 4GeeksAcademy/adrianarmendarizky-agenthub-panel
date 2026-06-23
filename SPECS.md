@@ -4,7 +4,7 @@ AgentHub is a SaaS platform that lets companies rent pre-configured AI agents �
 # Tech stack & constraints
 Built with HTML, Tailwind CSS (via CDN), and vanilla JavaScript only — no frameworks, no build step, no backend. All data is hardcoded directly in the HTML/JS; there are no live API calls. Light/dark mode is implemented using Tailwind's dark: variant, toggled by adding/removing a dark class on the <html> element via a top-bar switch.
 
-# Admin Panel Design
+# Admin panel design
 
 ## Dashboard
 - Four metric cards arranged in a responsive 2×2 grid (collapsing to a single column below the md breakpoint), each displaying an icon, a label, and a hardcoded value: Total Revenue (This Month), Total Discount/Coupon Losses, Active Agents Across Clients, and Agents Flagged as Failing.
