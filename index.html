@@ -440,6 +440,72 @@
         `;
       }
 
+      function renderWeeklyActivityChart() {
+        const weeklyActivity = [
+          { day: "Mon", value: 32 },
+          { day: "Tue", value: 45 },
+          { day: "Wed", value: 38 },
+          { day: "Thu", value: 54 },
+          { day: "Fri", value: 49 },
+          { day: "Sat", value: 27 },
+          { day: "Sun", value: 22 }
+        ];
+
+        const chartHeight = 220;
+        const baselineY = 176;
+        const barWidth = 42;
+        const gap = 18;
+        const startX = 20;
+        const maxValue = Math.max(...weeklyActivity.map((entry) => entry.value), 1);
+
+        const bars = weeklyActivity
+          .map((entry, index) => {
+            const barHeight = Math.round((entry.value / maxValue) * 120);
+            const x = startX + index * (barWidth + gap);
+            const y = baselineY - barHeight;
+
+            return `
+              <g>
+                <rect
+                  x="${x}"
+                  y="${y}"
+                  width="${barWidth}"
+                  height="${barHeight}"
+                  rx="10"
+                  fill="url(#activityBarGradient)"
+                ></rect>
+                <text x="${x + barWidth / 2}" y="${y - 8}" text-anchor="middle" class="fill-slate-600 text-[10px] dark:fill-slate-300">${entry.value}</text>
+                <text x="${x + barWidth / 2}" y="${baselineY + 18}" text-anchor="middle" class="fill-slate-500 text-[11px] dark:fill-slate-400">${entry.day}</text>
+              </g>
+            `;
+          })
+          .join("");
+
+        return `
+          <div class="mt-5 overflow-hidden rounded-2xl border border-slate-200 bg-white/80 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900/75">
+            <div class="mb-3 flex items-center justify-between gap-3">
+              <div>
+                <p class="text-sm font-semibold text-slate-900 dark:text-slate-100">Weekly Activity Chart</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Agent tasks completed by day</p>
+              </div>
+              <span class="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300">267 total tasks</span>
+            </div>
+
+            <svg viewBox="0 0 460 ${chartHeight}" class="h-56 w-full">
+              <defs>
+                <linearGradient id="activityBarGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#06b6d4"></stop>
+                  <stop offset="100%" stop-color="#10b981"></stop>
+                </linearGradient>
+              </defs>
+
+              <line x1="10" y1="176" x2="450" y2="176" class="stroke-slate-300 dark:stroke-slate-600" stroke-width="1"></line>
+              ${bars}
+            </svg>
+          </div>
+        `;
+      }
+
       function renderDashboard() {
         const dashboard = document.getElementById("section-dashboard");
         dashboard.innerHTML = `
@@ -466,9 +532,7 @@
             </div>
           </div>
 
-          <div class="mt-5 rounded-2xl border-2 border-dashed border-slate-300 bg-white/70 p-12 text-center text-sm font-medium tracking-wide text-slate-500 dark:border-slate-600 dark:bg-slate-900/65 dark:text-slate-300">
-            Weekly Activity Chart
-          </div>
+          ${renderWeeklyActivityChart()}
         `;
       }
 
